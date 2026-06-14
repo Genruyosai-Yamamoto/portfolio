@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felix -- 3D Creator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/framer-motion@12.38.0/dist/framer-motion.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        kanit: ['Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0C0C0C',
+                        light: '#D7E2EA',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body, #root {
+            background: #0C0C0C;
+            font-family: 'Kanit', sans-serif;
+            overflow-x: clip;
+        }
+
+        .hero-heading {
+            background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .main-wrapper {
+            overflow-x: clip;
+            background: #0C0C0C;
+        }
+
+        .contact-btn {
+            background: linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%);
+            box-shadow: 0px 4px 4px rgba(181, 1, 167, 0.25), inset 4px 4px 12px #7721B1;
+            outline: 2px solid white;
+            outline-offset: -3px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 8px rgba(181, 1, 167, 0.35), inset 4px 4px 16px #7721B1;
+        }
+
+        .live-project-btn {
+            transition: all 0.3s ease;
+        }
+
+        .live-project-btn:hover {
+            background: rgba(215, 226, 234, 0.1);
+        }
+
+        .marquee-row {
+            will-change: transform;
+        }
+
+        .magnet-wrapper {
+            will-change: transform;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .magnet-wrapper.active {
+            transition: transform 0.3s ease-out;
+        }
+
+        .char-anim {
+            display: inline-block;
+            position: relative;
+        }
+
+        .char-anim .char-placeholder {
+            opacity: 0.2;
+        }
+
+        .char-anim .char-active {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+
+        .service-item {
+            border-bottom: 1px solid rgba(12, 12, 12, 0.15);
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .project-card {
+            will-change: transform;
+        }
+
+        .nav-link {
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-80px);
+            transition: opacity 0.9s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(80px);
+            transition: opacity 0.9s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .services-section {
+            background: #FFFFFF;
+            border-radius: 40px 40px 0 0;
+        }
+
+        @media (min-width: 640px) {
+            .services-section {
+                border-radius: 50px 50px 0 0;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .services-section {
+                border-radius: 60px 60px 0 0;
+            }
+        }
+
+        .projects-section {
+            background: #0C0C0C;
+            border-radius: 40px 40px 0 0;
+            margin-top: -40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (min-width: 640px) {
+            .projects-section {
+                border-radius: 50px 50px 0 0;
+                margin-top: -48px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .projects-section {
+                border-radius: 60px 60px 0 0;
+                margin-top: -56px;
+            }
+        }
+
+        .project-card-inner {
+            border-radius: 40px;
+            border: 2px solid #D7E2EA;
+            background: #0C0C0C;
+        }
+
+        @media (min-width: 640px) {
+            .project-card-inner {
+                border-radius: 50px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .project-card-inner {
+                border-radius: 60px;
+            }
+        }
+
+        .project-img {
+            border-radius: 40px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .project-img {
+                border-radius: 50px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .project-img {
+                border-radius: 60px;
+            }
+        }
+
+        .sticky-card {
+            position: sticky;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0C0C0C;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div id="root" class="main-wrapper">
+        <!-- HERO SECTION -->
+        <section id="hero" class="h-screen flex flex-col relative overflow-x-clip">
+            <!-- Navbar -->
+            <nav class="flex justify-between items-center px-6 md:px-10 pt-6 md:pt-8 fade-in" style="transition-delay: 0s; transform: translateY(-20px);">
+                <a href="#about" class="nav-link text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem]">About</a>
+                <a href="#projects" class="nav-link text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem]">Projects</a>
+                <a href="#contact" class="nav-link text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem]">Contact</a>
+            </nav>
+
+            <!-- Hero Heading -->
+            <div class="overflow-hidden w-full mt-6 sm:mt-4 md:-mt-5">
+                <h1 class="hero-heading font-black uppercase tracking-tight leading-none whitespace-nowrap w-full text-[14vw] sm:text-[15vw] md:text-[16vw] lg:text-[17.5vw] fade-in" style="transition-delay: 0.15s; transform: translateY(40px);">
+                    Hi, i'm Felix
+                </h1>
+            </div>
+
+            <!-- Hero Portrait -->
+            <div id="magnet-container" class="absolute left-1/2 -translate-x-1/2 z-10 w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px] top-1/2 -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-0 fade-in" style="transition-delay: 0.6s; transform: translateY(30px);">
+                <div id="magnet-element" class="magnet-wrapper">
+                    <img src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png" 
+                         alt="Felix Portrait" 
+                         class="w-full h-auto object-contain"
+                         loading="lazy">
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="flex justify-between items-end pb-7 sm:pb-8 md:pb-10 px-6 md:px-10 mt-auto">
+                <p class="text-[#D7E2EA] font-light uppercase tracking-wide leading-snug max-w-[160px] sm:max-w-[220px] md:max-w-[260px] fade-in" 
+                   style="font-size: clamp(0.75rem, 1.4vw, 1.5rem); transition-delay: 0.35s; transform: translateY(20px);">
+                    a 3d frontend designer driven by crafting striking and unforgettable projects
+                </p>
+                <a href="#contact" class="contact-btn text-white font-medium uppercase tracking-widest px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base rounded-full fade-in" 
+                   style="transition-delay: 0.5s; transform: translateY(20px);">
+                    Contact Me
+                </a>
+            </div>
+        </section>
+
+        <!-- MARQUEE SECTION -->
+        <section id="marquee" class="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-hidden">
+            <div class="flex flex-col gap-3">
+                <!-- Row 1 - Moves RIGHT -->
+                <div id="marquee-row-1" class="marquee-row flex gap-3">
+                    <!-- Images will be injected by JS -->
+                </div>
+                <!-- Row 2 - Moves LEFT -->
+                <div id="marquee-row-2" class="marquee-row flex gap-3">
+                    <!-- Images will be injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="min-h-screen flex flex-col items-center justify-center px-5 sm:px-8 md:px-10 py-20 relative">
+            <!-- Decorative Images -->
+            <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png" 
+                 alt="Moon" 
+                 class="absolute top-[4%] left-[1%] sm:left-[2%] md:left-[4%] w-[120px] sm:w-[160px] md:w-[210px] fade-in-left" 
+                 style="transition-delay: 0.1s;"
+                 loading="lazy">
+
+            <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" 
+                 alt="3D Object" 
+                 class="absolute bottom-[8%] left-[3%] sm:left-[6%] md:left-[10%] w-[100px] sm:w-[140px] md:w-[180px] fade-in-left" 
+                 style="transition-delay: 0.25s;"
+                 loading="lazy">
+
+            <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png" 
+                 alt="Lego" 
+                 class="absolute top-[4%] right-[1%] sm:right-[2%] md:right-[4%] w-[120px] sm:w-[160px] md:w-[210px] fade-in-right" 
+                 style="transition-delay: 0.15s;"
+                 loading="lazy">
+
+            <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png" 
+                 alt="3D Group" 
+                 class="absolute bottom-[8%] right-[3%] sm:right-[6%] md:right-[10%] w-[130px] sm:w-[170px] md:w-[220px] fade-in-right" 
+                 style="transition-delay: 0.3s;"
+                 loading="lazy">
+
+            <!-- Heading -->
+            <h2 class="hero-heading font-black uppercase leading-none tracking-tight text-center fade-in" 
+                style="font-size: clamp(3rem, 12vw, 160px); transition-delay: 0s; transform: translateY(40px);">
+                About me
+            </h2>
+
+            <!-- Animated Paragraph -->
+            <div class="mt-10 sm:mt-14 md:mt-16 max-w-[560px] text-center">
+                <p id="about-text" class="text-[#D7E2EA] font-medium leading-relaxed" 
+                   style="font-size: clamp(1rem, 2vw, 1.35rem);">
+                    With more than five years of experience in design, i focus on branding, web design, and user experience, i truly enjoy working with businesses that aim to stand out and present their best image. Let's build something incredible together!
+                </p>
+            </div>
+
+            <!-- Contact Button -->
+            <div class="mt-16 sm:mt-20 md:mt-24 fade-in" style="transition-delay: 0.4s;">
+                <a href="#contact" class="contact-btn text-white font-medium uppercase tracking-widest px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base rounded-full inline-block">
+                    Contact Me
+                </a>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION -->
+        <section id="services" class="services-section px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32">
+            <h2 class="text-[#0C0C0C] font-black uppercase text-center mb-16 sm:mb-20 md:mb-28 fade-in" 
+                style="font-size: clamp(3rem, 12vw, 160px);">
+                Services
+            </h2>
+
+            <div class="max-w-5xl mx-auto">
+                <!-- Service 01 -->
+                <div class="service-item flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 py-8 sm:py-10 md:py-12 fade-in" style="transition-delay: 0s;">
+                    <span class="font-black text-[#0C0C0C] leading-none" style="font-size: clamp(3rem, 10vw, 140px);">01</span>
+                    <div class="flex-1">
+                        <h3 class="font-medium uppercase text-[#0C0C0C]" style="font-size: clamp(1rem, 2.2vw, 2.1rem);">3D Modeling</h3>
+                        <p class="font-light leading-relaxed max-w-2xl text-[#0C0C0C] opacity-60" style="font-size: clamp(0.85rem, 1.6vw, 1.25rem);">
+                            Creation of detailed objects, characters, or environments tailored to specific client needs, ideal for games, products, and visualizations.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 02 -->
+                <div class="service-item flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 py-8 sm:py-10 md:py-12 fade-in" style="transition-delay: 0.1s;">
+                    <span class="font-black text-[#0C0C0C] leading-none" style="font-size: clamp(3rem, 10vw, 140px);">02</span>
+                    <div class="flex-1">
+                        <h3 class="font-medium uppercase text-[#0C0C0C]" style="font-size: clamp(1rem, 2.2vw, 2.1rem);">Rendering</h3>
+                        <p class="font-light leading-relaxed max-w-2xl text-[#0C0C0C] opacity-60" style="font-size: clamp(0.85rem, 1.6vw, 1.25rem);">
+                            High-quality, photorealistic renders that showcase designs with custom lighting, textures, and materials to bring concepts to life.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 03 -->
+                <div class="service-item flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 py-8 sm:py-10 md:py-12 fade-in" style="transition-delay: 0.2s;">
+                    <span class="font-black text-[#0C0C0C] leading-none" style="font-size: clamp(3rem, 10vw, 140px);">03</span>
+                    <div class="flex-1">
+                        <h3 class="font-medium uppercase text-[#0C0C0C]" style="font-size: clamp(1rem, 2.2vw, 2.1rem);">Motion Design</h3>
+                        <p class="font-light leading-relaxed max-w-2xl text-[#0C0C0C] opacity-60" style="font-size: clamp(0.85rem, 1.6vw, 1.25rem);">
+                            Dynamic animations and motion graphics that add energy and storytelling to brands, products, and digital experiences.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 04 -->
+                <div class="service-item flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 py-8 sm:py-10 md:py-12 fade-in" style="transition-delay: 0.3s;">
+                    <span class="font-black text-[#0C0C0C] leading-none" style="font-size: clamp(3rem, 10vw, 140px);">04</span>
+                    <div class="flex-1">
+                        <h3 class="font-medium uppercase text-[#0C0C0C]" style="font-size: clamp(1rem, 2.2vw, 2.1rem);">Branding</h3>
+                        <p class="font-light leading-relaxed max-w-2xl text-[#0C0C0C] opacity-60" style="font-size: clamp(0.85rem, 1.6vw, 1.25rem);">
+                            Crafting cohesive visual identities -- from logos to full brand systems -- that communicate a clear and memorable presence.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 05 -->
+                <div class="service-item flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 py-8 sm:py-10 md:py-12 fade-in" style="transition-delay: 0.4s;">
+                    <span class="font-black text-[#0C0C0C] leading-none" style="font-size: clamp(3rem, 10vw, 140px);">05</span>
+                    <div class="flex-1">
+                        <h3 class="font-medium uppercase text-[#0C0C0C]" style="font-size: clamp(1rem, 2.2vw, 2.1rem);">Web Design</h3>
+                        <p class="font-light leading-relaxed max-w-2xl text-[#0C0C0C] opacity-60" style="font-size: clamp(0.85rem, 1.6vw, 1.25rem);">
+                            Designing clean, modern, and conversion-focused websites with attention to layout, typography, and user experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS SECTION -->
+        <section id="projects" class="projects-section px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32">
+            <h2 class="hero-heading font-black uppercase leading-none tracking-tight text-center mb-16 sm:mb-20 md:mb-28 fade-in" 
+                style="font-size: clamp(3rem, 12vw, 160px);">
+                Project
+            </h2>
+
+            <div id="projects-container" class="max-w-6xl mx-auto space-y-8">
+                <!-- Project cards will be generated by JS -->
+            </div>
+        </section>
+
+        <!-- CONTACT / FOOTER -->
+        <section id="contact" class="bg-[#0C0C0C] py-20 sm:py-24 md:py-32 px-5 sm:px-8 md:px-10 text-center">
+            <h2 class="hero-heading font-black uppercase leading-none tracking-tight mb-8 fade-in" 
+                style="font-size: clamp(3rem, 12vw, 160px);">
+                Let's Talk
+            </h2>
+            <p class="text-[#D7E2EA] font-light mb-12 max-w-xl mx-auto fade-in" style="font-size: clamp(1rem, 2vw, 1.35rem);">
+                Have a project in mind? Let's create something extraordinary together.
+            </p>
+            <a href="mailto:hello@felix.design" class="contact-btn text-white font-medium uppercase tracking-widest px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base rounded-full inline-block fade-in">
+                Contact Me
+            </a>
+
+            <div class="mt-20 pt-10 border-t border-[#D7E2EA]/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-[#D7E2EA]/40 text-sm">© 2024 Felix. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-[#D7E2EA]/40 hover:text-[#D7E2EA] transition-colors text-sm">Twitter</a>
+                    <a href="#" class="text-[#D7E2EA]/40 hover:text-[#D7E2EA] transition-colors text-sm">Instagram</a>
+                    <a href="#" class="text-[#D7E2EA]/40 hover:text-[#D7E2EA] transition-colors text-sm">Dribbble</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // ============================================
+        // MARQUEE IMAGES DATA
+        // ============================================
+        const row1Images = [
+            "https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif",
+            "https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif",
+            "https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif",
+            "https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif",
+            "https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif",
+            "https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif",
+            "https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif",
+            "https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif",
+            "https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif",
+            "https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif",
+            "https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif"
+        ];
+
+        const row2Images = [
+            "https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif",
+            "https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif",
+            "https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif",
+            "https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif",
+            "https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif",
+            "https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif",
+            "https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif",
+            "https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif",
+            "https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif",
+            "https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif"
+        ];
+
+        // ============================================
+        // PROJECTS DATA
+        // ============================================
+        const projects = [
+            {
+                number: "01",
+                name: "Logbook Ai",
+                category: "Client",
+                col1: [
+                    "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85",
+                    "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85"
+                ],
+                col2: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85"
+            },
+            {
+                number: "02",
+                name: "FileShare using Star topology",
+                category: "Personal",
+                col1: [
+                    "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85",
+                    "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85"
+                ],
+                col2: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85"
+            },
+            {
+                number: "03",
+                name: "Solaris Digital",
+                category: "Client",
+                col1: [
+                    "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85",
+                    "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85"
+                ],
+                col2: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85"
+            }
+        ];
+
+        // ============================================
+        // INITIALIZE MARQUEE
+        // ============================================
+        function initMarquee() {
+            const row1 = document.getElementById('marquee-row-1');
+            const row2 = document.getElementById('marquee-row-2');
+
+            // Triple the images for seamless scrolling
+            const tripleRow1 = [...row1Images, ...row1Images, ...row1Images];
+            const tripleRow2 = [...row2Images, ...row2Images, ...row2Images];
+
+            tripleRow1.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'w-[420px] h-[270px] rounded-2xl object-cover flex-shrink-0';
+                img.loading = 'lazy';
+                row1.appendChild(img);
+            });
+
+            tripleRow2.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'w-[420px] h-[270px] rounded-2xl object-cover flex-shrink-0';
+                img.loading = 'lazy';
+                row2.appendChild(img);
+            });
+        }
+
+        // ============================================
+        // INITIALIZE PROJECTS
+        // ============================================
+        function initProjects() {
+            const container = document.getElementById('projects-container');
+            const totalCards = projects.length;
+
+            projects.forEach((project, index) => {
+                const targetScale = 1 - (totalCards - 1 - index) * 0.03;
+                const topOffset = index * 28;
+
+                const card = document.createElement('div');
+                card.className = 'sticky-card h-[85vh]';
+                card.style.top = `${24 + (index * 2)}px`;
+                if (window.innerWidth >= 768) {
+                    card.style.top = `${32 + (index * 2)}px`;
+                }
+                card.style.top = `${topOffset + 96}px`;
+
+                card.innerHTML = `
+                    <div class="project-card-inner h-full p-4 sm:p-6 md:p-8 flex flex-col" data-scale="${targetScale}" data-index="${index}">
+                        <!-- Top Row -->
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                            <div class="flex items-center gap-4 sm:gap-8">
+                                <span class="font-black text-[#D7E2EA] leading-none" style="font-size: clamp(3rem, 10vw, 140px);">${project.number}</span>
+                                <div>
+                                    <span class="text-[#D7E2EA]/60 text-sm uppercase tracking-wider">${project.category}</span>
+                                    <h3 class="text-[#D7E2EA] font-medium uppercase" style="font-size: clamp(1rem, 2.2vw, 2.1rem);">${project.name}</h3>
+                                </div>
+                            </div>
+                            <a href="#" class="live-project-btn rounded-full border-2 border-[#D7E2EA] text-[#D7E2EA] font-medium uppercase tracking-widest px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base">
+                                Live Project
+                            </a>
+                        </div>
+
+                        <!-- Bottom Row - Image Grid -->
+                        <div class="flex-1 flex gap-4 min-h-0">
+                            <!-- Left Column (40%) -->
+                            <div class="w-[40%] flex flex-col gap-4">
+                                <div class="flex-1 min-h-0">
+                                    <img src="${project.col1[0]}" alt="${project.name} 1" class="project-img w-full h-full object-cover" loading="lazy" style="height: clamp(130px, 16vw, 230px);">
+                                </div>
+                                <div class="flex-1 min-h-0">
+                                    <img src="${project.col1[1]}" alt="${project.name} 2" class="project-img w-full h-full object-cover" loading="lazy" style="height: clamp(160px, 22vw, 340px);">
+                                </div>
+                            </div>
+                            <!-- Right Column (60%) -->
+                            <div class="w-[60%]">
+                                <img src="${project.col2}" alt="${project.name} 3" class="project-img w-full h-full object-cover" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // ============================================
+        // MAGNET EFFECT
+        // ============================================
+        function initMagnet() {
+            const container = document.getElementById('magnet-container');
+            const element = document.getElementById('magnet-element');
+            const padding = 150;
+            const strength = 3;
+
+            let isActive = false;
+
+            document.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                const distX = Math.abs(e.clientX - centerX);
+                const distY = Math.abs(e.clientY - centerY);
+                const maxDistX = rect.width / 2 + padding;
+                const maxDistY = rect.height / 2 + padding;
+
+                if (distX < maxDistX && distY < maxDistY) {
+                    if (!isActive) {
+                        isActive = true;
+                        element.classList.add('active');
+                    }
+                    const moveX = (e.clientX - centerX) / strength;
+                    const moveY = (e.clientY - centerY) / strength;
+                    element.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+                } else {
+                    if (isActive) {
+                        isActive = false;
+                        element.classList.remove('active');
+                        element.style.transform = 'translate3d(0, 0, 0)';
+                    }
+                }
+            });
+        }
+
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        function initScrollAnimations() {
+            // Fade in animations
+            const fadeElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0,
+                rootMargin: '50px'
+            });
+
+            fadeElements.forEach(el => observer.observe(el));
+
+            // Marquee scroll effect
+            const marqueeSection = document.getElementById('marquee');
+            const row1 = document.getElementById('marquee-row-1');
+            const row2 = document.getElementById('marquee-row-2');
+
+            window.addEventListener('scroll', () => {
+                const rect = marqueeSection.getBoundingClientRect();
+                const sectionTop = rect.top + window.scrollY;
+                const offset = (window.scrollY - sectionTop + window.innerHeight) * 0.3;
+
+                if (row1) row1.style.transform = `translateX(${offset - 200}px)`;
+                if (row2) row2.style.transform = `translateX(-${offset - 200}px)`;
+            }, { passive: true });
+
+            // Character animation for about text
+            initCharAnimation();
+
+            // Project card scaling
+            initProjectScaling();
+        }
+
+        // ============================================
+        // CHARACTER ANIMATION
+        // ============================================
+        function initCharAnimation() {
+            const textEl = document.getElementById('about-text');
+            const text = textEl.textContent;
+            textEl.innerHTML = '';
+
+            const chars = text.split('');
+            chars.forEach((char, i) => {
+                const span = document.createElement('span');
+                span.className = 'char-anim';
+
+                const placeholder = document.createElement('span');
+                placeholder.className = 'char-placeholder';
+                placeholder.textContent = char === ' ' ? ' ' : char;
+
+                const active = document.createElement('span');
+                active.className = 'char-active';
+                active.textContent = char === ' ' ? ' ' : char;
+                active.style.opacity = '0.2';
+
+                span.appendChild(placeholder);
+                span.appendChild(active);
+                textEl.appendChild(span);
+            });
+
+            // Scroll-driven opacity
+            const aboutSection = document.getElementById('about');
+
+            window.addEventListener('scroll', () => {
+                const rect = aboutSection.getBoundingClientRect();
+                const sectionHeight = aboutSection.offsetHeight;
+                const viewportHeight = window.innerHeight;
+
+                // Calculate progress: 0 when section top is at 80% of viewport, 1 when at 20%
+                const start = viewportHeight * 0.8;
+                const end = viewportHeight * 0.2;
+                const current = rect.top;
+
+                let progress = (start - current) / (start - end);
+                progress = Math.max(0, Math.min(1, progress));
+
+                const charElements = textEl.querySelectorAll('.char-active');
+                charElements.forEach((char, i) => {
+                    const charProgress = (progress * charElements.length - i);
+                    const opacity = Math.max(0.2, Math.min(1, charProgress));
+                    char.style.opacity = opacity;
+                });
+            }, { passive: true });
+        }
+
+        // ============================================
+        // PROJECT CARD SCALING
+        // ============================================
+        function initProjectScaling() {
+            const cards = document.querySelectorAll('.project-card-inner');
+
+            window.addEventListener('scroll', () => {
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const parent = card.closest('.sticky-card');
+                    const parentRect = parent.getBoundingClientRect();
+
+                    const targetScale = parseFloat(card.dataset.scale);
+                    const index = parseInt(card.dataset.index);
+
+                    // Calculate how far the parent has been scrolled
+                    const scrollProgress = Math.max(0, Math.min(1, 
+                        (window.innerHeight - parentRect.top) / (window.innerHeight + parentRect.height)
+                    ));
+
+                    const scale = 1 - (scrollProgress * (1 - targetScale) * 0.5);
+                    card.style.transform = `scale(${Math.max(targetScale, scale)})`;
+                });
+            }, { passive: true });
+        }
+
+        // ============================================
+        // SMOOTH SCROLL FOR NAV LINKS
+        // ============================================
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // ============================================
+        // INITIALIZE EVERYTHING
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initMarquee();
+            initProjects();
+            initMagnet();
+            initScrollAnimations();
+            initSmoothScroll();
+
+            // Trigger initial fade-ins for hero elements
+            setTimeout(() => {
+                document.querySelectorAll('#hero .fade-in').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
