@@ -117,146 +117,208 @@
         }
 
         /* ===== HERO SECTION ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%);
-            overflow: hidden;
-            padding-top: 80px;
-        }
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%);
+    overflow: hidden;
+    padding-top: 80px;
+}
 
         .hero-bg-text {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 30%; 
+            left: 25%;
             transform: translate(-50%, -50%);
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(4rem, 12vw, 10rem);
-            font-weight: 700;
-            color: rgba(255,255,255,0.08);
-            white-space: nowrap;
+            text-align: center;
+            width: 100%;
+            z-index: 1;
             pointer-events: none;
-            user-select: none;
-            z-index: 1;
-        }
-
-        .hero-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 1400px;
-            padding: 0 60px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-left {
-            flex: 1;
-            max-width: 500px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .btn {
-            padding: 12px 32px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1.5px solid rgba(255,255,255,0.3);
-            color: #ccc;
-        }
-
-        .btn-outline:hover {
-            border-color: #fff;
-            color: #fff;
-            background: rgba(255,255,255,0.05);
-        }
-
-        .btn-solid {
-            background: rgba(255,255,255,0.1);
-            border: 1.5px solid rgba(255,255,255,0.2);
-            color: #fff;
-        }
-
-        .btn-solid:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .hero-right {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        .hero-image-container {
-            position: relative;
-            width: 450px;
-            height: 550px;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Samurai overlay effect */
-        .samurai-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=600&h=750&fit=crop') center/cover;
-            border-radius: 20px;
             opacity: 0;
-            z-index: 3;
-            transition: opacity 0.8s ease;
-            mix-blend-mode: lighten;
+            transition: opacity 0.6s ease;
         }
 
-        .hero-image-container:hover .samurai-overlay {
-            opacity: 0.7;
+        .hero-bg-text.active {
+            opacity: 1; 
+            z-index: 10; 
+            transform: translate(-50%, -50%) scale(1.05);
         }
 
-        .hero-image-container::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(135deg, rgba(200,50,50,0.3), transparent, rgba(200,50,50,0.1));
-            border-radius: 25px;
-            z-index: 1;
+        .bg-name {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 7rem);
+            font-weight: 700;
+            color: rgba(255,255,255,0.9);
+            white-space: normal; 
+            line-height: 1.1;
+            margin: 5px 0;
+            margin-left: 0; 
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transform: translateY(30px);
+            transition: all 0.6s ease 0.15s;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            text-align: center;
         }
 
-        .hero-image-container:hover::before {
-            opacity: 1;
+        .bg-role {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+            font-weight: 400;
+            color: #ddd;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            opacity: 0;
+            margin-left: 0;
+            transform: translateY(15px);
+            transition: all 0.6s ease 0.3s;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            text-align: center;
+        }  
+        @media (max-width: 800px) {
+            .hero-bg-text {
+                top: 20%; 
+                left: 50%; 
+            }
+            .bg-name {
+                margin-left: 0; 
+                text-align: center; 
+                font-size: clamp(2rem, 11vw, 4rem); 
+                white-space: normal; 
+                line-height: 1.2;
+            }
+            .bg-role {
+                margin-left: 0; 
+                text-align: center; 
+                font-size: 0.85rem; 
+            }
         }
+        .hero-bg-text.active .bg-line,
+        .hero-bg-text.active .bg-name,
+        .hero-bg-text.active .bg-role {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .hero-content {
+        display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-left {
+    flex: 1;
+    max-width: 500px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.btn {
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: #ccc;
+}
+
+.btn-outline:hover {
+    border-color: #fff;
+    color: #fff;
+    background: rgba(255,255,255,0.05);
+}
+
+.btn-solid {
+    background: rgba(255,255,255,0.1);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    color: #fff;
+}
+
+.btn-solid:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.hero-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.hero-image-container {
+    position: relative;
+    width: 450px;
+    height: 550px;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Samurai overlay effect */
+.samurai-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/static/me.jpg') center/cover;
+    border-radius: 20px;
+    opacity: 0;
+    z-index: 3;
+    transition: opacity 0.8s ease;
+}
+
+.hero-image-container:hover .samurai-overlay {
+    opacity: 1;
+}
+
+.hero-image-container::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(135deg, rgba(200,50,50,0.3), transparent, rgba(200,50,50,0.1));
+    border-radius: 25px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.hero-image-container:hover::before {
+    opacity: 1;
+}
+
 
         /* ===== SECTION STYLES ===== */
         section {
@@ -819,17 +881,23 @@
 
     <!-- HERO SECTION -->
     <section class="hero" id="hero">
-        <div class="hero-bg-text">Hi! I'm <br> Chidera Amadi</div>
+        <!-- Background text - hidden by default, shown on hover/click -->
+        <div class="hero-bg-text" id="heroBgText">
+            <span class="bg-line">Hi, I'm</span>
+            <span class="bg-name">Chidera Amadi</span>
+            <span class="bg-role">Frontend Developer</span>
+        </div>
+
         <div class="hero-content">
             <div class="hero-left fade-in">
                 <div class="hero-buttons">
                     <a href="#contact" class="btn btn-outline">Contact</a>
-                    <a href="#about" class="btn btn-solid">Who I'm</a>
+                    <a href="#about" class="btn btn-solid" id="whoBtn" onclick="toggleHeroText(event)">Who I'm</a>
                 </div>
             </div>
             <div class="hero-right fade-in delay-2">
-                <div class="hero-image-container">
-                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=450&h=550&fit=crop&crop=face" alt="Amine" class="hero-image">
+                <div class="hero-image-container" id="heroImage" onmouseenter="showHeroText()" onmouseleave="hideHeroText()">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=450&h=550&fit=crop&crop=face" loading="lazy" alt="Chidera" class="hero-image">
                     <div class="samurai-overlay"></div>
                 </div>
             </div>
@@ -843,15 +911,15 @@
             <div class="about-image flip-card fade-in">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500&fit=crop&crop=face" alt="About Amine Front">
+                        <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400&h=500&fit=crop" loading="lazy" alt="About Amine Front">
                     </div>
                     <div class="flip-card-back">
-                        <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400&h=500&fit=crop" alt="About Amine Back">
+                        <img src="/static/me.jpg" loading="lazy" alt="About Amine Back">
                     </div>
                 </div>
             </div>
             <div class="about-text fade-in delay-2">
-                <p>Hi, I'm Chidera Amadi, a passionate Frontend Developer and Computer Science student. I enjoy building modern, responsive, and interactive web interfaces that provide a great user experience. I focus on clean design, smooth animations, and writing efficient code using modern web technologies. I'm always learning new tools and improving my skills to create better digital products. My goal is to combine creativity with technology to build websites that are both beautiful and functional.</p>
+                <p>I'm a creative frontend developer and a 300L Computer Science student with a passion for building modern, interactive, and user-focused web experiences. I specialize in creating responsive interfaces with smooth animations, prioritizing clean design and efficient code. With a strong foundation in web development technologies, I enjoy combining creativity and logic to build seamless digital products that are both beautiful and functional.</p>
             </div>
         </div>
     </section>
@@ -980,7 +1048,7 @@
         <h2 class="section-title">Project</h2>
         <div class="projects-grid">
             <div class="project-card fade-in">
-                <img src="/static/stock.png" alt="stock and supply chain management system" class="project-image">
+                <img src="/static/stock.png" loading="lazy" alt="stock and supply chain management system" class="project-image">
                 <div class="project-info">
                     <h3>Stock and Supply Chain Management System</h3>
                     <p>A  stock and supply chain management web app.</p>
@@ -992,14 +1060,14 @@
                         <span class="tag">Firebase</span>
                     </div>
                     <div class="project-links">
-                        <a href="#">GitHub</a>
+                        <a href="">GitHub</a>
                         <a href="https://stock-1-1im5.onrender.com/">Live Demo</a>
                     </div>
                 </div>
             </div>
 
             <div class="project-card fade-in delay-1">
-                <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&h=350&fit=crop" alt="Portfolio" class="project-image">
+                <img src="/static/portfolio.png" loading="lazy" alt="Portfolio" class="project-image">
                 <div class="project-info">
                     <h3>Portfolio Website</h3>
                     <p>Personal portfolio to showcase my design and coding projects.</p>
@@ -1015,7 +1083,7 @@
             </div>
 
             <div class="project-card fade-in delay-2">
-                <img src="/static/Screenshot_20260615_144722.png" alt="logbook-ai" class="project-image">
+                <img src="/static/Screenshot_20260615_144722.png" loading="lazy" alt="logbook-ai" class="project-image">
                 <div class="project-info">
                     <h3>A SIWES Logbook Generator</h3>
                     <p>A Responsive app for Generating logbook</p>
@@ -1036,7 +1104,7 @@
             </div>
 
             <div class="project-card fade-in">
-                <img src="/static/ai detector.png" alt="Blog" class="project-image">
+                <img src="/static/ai detector.png" loading="lazy" alt="Blog" class="project-image">
                 <div class="project-info">
                     <h3>AI Detector</h3>
                     <p>A Responsive AI Detector for detecting AI generated content.</p>
@@ -1049,7 +1117,7 @@
                     </div>
                     <div class="project-links">
                         <a href="https://ai-detector.onrender.com">Live Demo</a>
-                        <a href="https://github.com/felixblaw/ai-detector">GitHub</a>
+                        <a href="https://github.com/Genruyosai-Yamamoto/ai-detector">GitHub</a>
                         
                         
                     </div>
@@ -1057,23 +1125,25 @@
             </div>
 
             <div class="project-card fade-in delay-1">
-                <img src="/static/anime.png" alt="Anime Streaming web app for Anime Watchers" class="project-image">
+                <img src="/static/link.png" loading="lazy" alt="Link Analyzer" class="project-image">
                 <div class="project-info">
-                    <h3>AniStream -An Stream platform for Anime Watchers</h3>
-                    <p>A Responsive Anime Streaming web app for Anime Watchers.</p>
+                    <h3>Link Analyzer</h3>
+                    <p>A Responsive Link Analyzer that detect Phising Link and malicious link.</p>
                     <div class="project-tags">
                         <span class="tag">HTML</span>
                         <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">FastAPI</span>
                     </div>
                     <div class="project-links">
                         <a href="#">GitHub</a>
-                        <a href="/home/parrot/blom/Siwes/project/respond.html">Live Demo</a>
+                        <a href="https://link-analyzer-p8pm.onrender.com/">Live Demo</a>
                     </div>
                 </div>
             </div>
 
             <div class="project-card fade-in delay-2">
-                <img src="/static/file.png" alt="File Sharing Engine" class="project-image">
+                <img src="/static/file.png" loading="lazy" alt="File Sharing Engine" class="project-image">
                 <div class="project-info">
                     <h3>File Sharing Engine</h3>
                     <p>A Responsive File Sharing Engine.</p>
@@ -1157,16 +1227,33 @@
     <footer>
         <p>&copy; 2026 Chidera Felix</p>
         <div class="footer-socials">
-            <a href="#" aria-label="GitHub">
+            <a href="" aria-label="GitHub">
                 <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             </a>
-            <a href="#" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            <a href="https://wa.me/2347046165756" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.52 3.48A11.82 11.82 0 0012.03 0C5.4 0 .02 5.38.02 12c0 2.12.55 4.19 1.6 6.02L0 24l6.15-1.6A11.97 11.97 0 0012.03 24c6.63 0 12.01-5.38 12.01-12 0-3.2-1.25-6.22-3.52-8.52zM12.03 21.82c-1.8 0-3.57-.48-5.12-1.38l-.37-.22-3.65.95.98-3.56-.24-.37A9.74 9.74 0 012.2 12c0-5.42 4.41-9.82 9.83-9.82s9.83 4.4 9.83 9.82-4.41 9.82-9.83 9.82zm5.4-7.36c-.3-.15-1.78-.88-2.06-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.94 1.18-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.51h-.57c-.2 0-.52.08-.79.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.08 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.08 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.12-.28-.2-.58-.35z"/>
+                </svg>
             </a>
-            <a href="#" aria-label="Instagram">
+            <a href="https://www.instagram.com/ichigokurosaki5053/" aria-label="Instagram">
                 <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
         </div>
     </footer>
+    <script>
+        function showHeroText() {
+            document.getElementById('heroBgText').classList.add('active');
+        }
+
+        function hideHeroText() {
+            document.getElementById('heroBgText').classList.remove('active');
+        }
+
+        function toggleHeroText(e) {
+            e.preventDefault();
+            const bgText = document.getElementById('heroBgText');
+            bgText.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

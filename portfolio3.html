@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurosaki | Software Developer CV</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0ea5e9',
+                        secondary: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+    
+    <!-- Container -->
+    <div class="cv-container max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <!-- Header Card with Profile Image -->
+        <header class="bg-white rounded-xl shadow-md p-6 sm:p-8 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                <div class="flex items-center gap-4 sm:gap-6">
+                    <!-- Profile Image -->
+                    <div class="relative">
+                        <img 
+                            src="https://i.pravatar.cc/150?img=12" 
+                            alt="Kurosaki Profile" 
+                            class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-slate-100 shadow-lg"
+                        >
+                        <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
+                    </div>
+                    
+                    <!-- Name & Title -->
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-secondary mb-1 tracking-tight">
+                            Kurosaki
+                        </h1>
+                        <p class="text-base sm:text-lg text-slate-600 font-medium">
+                            Backend-Focused Software Developer
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Print Button -->
+                <div class="flex items-center gap-3">
+                    <button onclick="window.print()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-sky-600 transition-colors duration-200">
+                        <i class="fa-solid fa-print"></i>
+                        Print
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Contact Grid -->
+            <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+                <div class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors">
+                    <i class="fa-solid fa-location-dot w-5 text-center"></i>
+                    <span>Lagos, Nigeria</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors">
+                    <i class="fa-solid fa-envelope w-5 text-center"></i>
+                    <a href="mailto:youremail@example.com" class="hover:underline">youremail@example.com</a>
+                </div>
+                <div class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors">
+                    <i class="fa-brands fa-github w-5 text-center"></i>
+                    <a href="https://github.com/yourusername" target="_blank" class="hover:underline">github.com/yourusername</a>
+                </div>
+                <div class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors">
+                    <i class="fa-solid fa-globe w-5 text-center"></i>
+                    <a href="https://yourportfolio.com" target="_blank" class="hover:underline">yourportfolio.com</a>
+                </div>
+                <div class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors">
+                    <i class="fa-solid fa-phone w-5 text-center"></i>
+                    <span>+234 XXX XXX XXXX</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                
+                <!-- Summary -->
+                <section class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                    <h2 class="text-xl font-semibold text-secondary mb-4 pb-3 border-b border-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-user-tie text-primary"></i>
+                        Professional Summary
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed text-sm">
+                        Backend-focused software developer with hands-on experience building real-world systems including banking prototypes, booking platforms, and management dashboards. Strong foundation in Python, C++, Flask, and system design, with growing interest in scalable architectures and AI-driven applications.
+                    </p>
+                </section>
+
+                <!-- Skills -->
+                <section class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                    <h2 class="text-xl font-semibold text-secondary mb-4 pb-3 border-b border-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-code text-primary"></i>
+                        Technical Skills
+                    </h2>
+                    <ul class="space-y-3">
+                        <li class="text-sm">
+                            <span class="font-semibold text-slate-800 inline-block w-20">Languages:</span>
+                            <span class="text-slate-600">Python, C++</span>
+                        </li>
+                        <li class="text-sm">
+                            <span class="font-semibold text-slate-800 inline-block w-20">Frameworks:</span>
+                            <span class="text-slate-600">Flask, Tkinter</span>
+                        </li>
+                        <li class="text-sm">
+                            <span class="font-semibold text-slate-800 inline-block w-20">Web:</span>
+                            <span class="text-slate-600">HTML, CSS, basic JavaScript</span>
+                        </li>
+                        <li class="text-sm">
+                            <span class="font-semibold text-slate-800 inline-block w-20">Concepts:</span>
+                            <span class="text-slate-600">Backend logic, CRUD, RBAC, System Design</span>
+                        </li>
+                        <li class="text-sm">
+                            <span class="font-semibold text-slate-800 inline-block w-20">Tools:</span>
+                            <span class="text-slate-600">Git, GitHub, Deployment</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Certifications -->
+                <section class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                    <h2 class="text-xl font-semibold text-secondary mb-4 pb-3 border-b border-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-certificate text-primary"></i>
+                        Certifications
+                    </h2>
+                    <ul class="space-y-3">
+                        <li class="text-sm text-slate-600 flex items-start gap-2">
+                            <i class="fa-solid fa-graduation-cap text-primary mt-0.5"></i>
+                            <span>freeCodeCamp – Responsive Web Design (in progress)</span>
+                        </li>
+                        <li class="text-sm text-slate-600 flex items-start gap-2">
+                            <i class="fa-solid fa-book text-slate-400 mt-0.5"></i>
+                            <span>JavaScript Algorithms & Data Structures (planned)</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Education -->
+                <section class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                    <h2 class="text-xl font-semibold text-secondary mb-4 pb-3 border-b border-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap text-primary"></i>
+                        Education
+                    </h2>
+                    <p class="font-semibold text-slate-800 text-sm">B.Sc. Computer Science</p>
+                    <p class="text-slate-600 text-sm">University Name</p>
+                </section>
+
+                <!-- Languages -->
+                <section class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                    <h2 class="text-xl font-semibold text-secondary mb-4 pb-3 border-b border-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-language text-primary"></i>
+                        Languages
+                    </h2>
+                    <ul class="space-y-2">
+                        <li class="text-sm text-slate-600 flex items-center gap-2">
+                            <span class="inline-block w-2 h-2 bg-primary rounded-full"></span>
+                            English — Fluent
+                        </li>
+                    </ul>
+                </section>
+                
+            </div>
+
+            <!-- Right Content -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Projects -->
+                <section class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                    <h2 class="text-xl font-semibold text-secondary mb-6 pb-3 border-b border-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-folder-open text-primary"></i>
+                        Projects
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        
+                        <div class="project-item border-l-2 border-slate-200 pl-4 hover:border-primary transition-colors duration-200">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                                <h3 class="text-lg font-semibold text-slate-800">Early-stage Banking System Prototype</h3>
+                                <span class="tech-tag inline-flex items-center px-3 py-1 bg-sky-50 text-sky-700 text-xs font-medium rounded-full">
+                                    <i class="fa-solid fa-code mr-1.5"></i> C++
+                                </span>
+                            </div>
+                            <ul class="text-sm text-slate-600 space-y-1.5 ml-4 list-disc">
+                                <li>Developed a USSD-style banking simulation focused on core transaction flows</li>
+                                <li>Implemented balance checks, transfers, and airtime operations</li>
+                                <li>Applied modular design with input validation and error handling</li>
+                                <li>Planned future improvements including hashing, encryption, and persistent storage</li>
+                            </ul>
+                        </div>
+
+                        <div class="project-item border-l-2 border-slate-200 pl-4 hover:border-primary transition-colors duration-200">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                                <h3 class="text-lg font-semibold text-slate-800">USSD Banking System with GUI</h3>
+                                <span class="tech-tag inline-flex items-center px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">
+                                    <i class="fa-solid fa-code mr-1.5"></i> Python, Tkinter
+                                </span>
+                            </div>
+                            <ul class="text-sm text-slate-600 space-y-1.5 ml-4 list-disc">
+                                <li>Converted USSD logic into a desktop graphical interface</li>
+                                <li>Improved usability through structured UI workflows</li>
+                            </ul>
+                        </div>
+
+                        <div class="project-item border-l-2 border-slate-200 pl-4 hover:border-primary transition-colors duration-200">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                                <h3 class="text-lg font-semibold text-slate-800">University Portal System</h3>
+                                <span class="tech-tag inline-flex items-center px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">
+                                    <i class="fa-solid fa-code mr-1.5"></i> Python, Flask
+                                </span>
+                            </div>
+                            <ul class="text-sm text-slate-600 space-y-1.5 ml-4 list-disc">
+                                <li>Built role-based access for students and administrators</li>
+                                <li>Implemented dashboards, routing, and backend workflows</li>
+                            </ul>
+                        </div>
+
+                        <div class="project-item border-l-2 border-slate-200 pl-4 hover:border-primary transition-colors duration-200">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                                <h3 class="text-lg font-semibold text-slate-800">Booking & Management Systems</h3>
+                                <span class="tech-tag inline-flex items-center px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">
+                                    <i class="fa-solid fa-code mr-1.5"></i> Python, Flask
+                                </span>
+                            </div>
+                            <ul class="text-sm text-slate-600 space-y-1.5 ml-4 list-disc">
+                                <li>Designed booking workflows for food delivery and laundry services</li>
+                                <li>Implemented CRUD operations and admin-side management logic</li>
+                            </ul>
+                        </div>
+
+                        <div class="project-item border-l-2 border-slate-200 pl-4 hover:border-primary transition-colors duration-200">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                                <h3 class="text-lg font-semibold text-slate-800">Experimental AI Humanizer</h3>
+                                <span class="tech-tag inline-flex items-center px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                    <i class="fa-solid fa-code mr-1.5"></i> Python, AI APIs
+                                </span>
+                            </div>
+                            <ul class="text-sm text-slate-600 space-y-1.5 ml-4 list-disc">
+                                <li>Explored AI-based text processing and content transformation</li>
+                                <li>Integrated external APIs for experimentation</li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </section>
+                
+            </div>
+            
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 text-center text-xs text-slate-500 pb-8">
+            <p>Generated with Tailwind CSS • Last updated: January 2026</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
